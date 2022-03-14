@@ -1,0 +1,16 @@
+## vscode
+.vscode
+.DS_Store
+##LaTex
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+*.aux
+*.bbl
+*.blg
+*.fls
+*.log
+*.out

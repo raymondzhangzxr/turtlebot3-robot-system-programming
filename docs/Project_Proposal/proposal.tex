@@ -1,0 +1,58 @@
+\documentclass[11pt]{article} \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[british,calc]{datetime2}
+\usepackage{advdate}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{float}
+
+% set date format as mm//dd
+\renewcommand{\DTMdisplaydate}[4]{#2/#3}
+
+\renewcommand{\refname}{Reading List}
+
+\title{2022 Spring Robot System Programming Proposal }
+\author{Xiaorui Zhang, Xucheng Ma}
+\date{March 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Stated Topic}
+This project will implement a SLAM algorithm and loop detection on the Turtlebot3 platform to improve map quality. We will focus on integrating available SLAM algorithms and ROS by applying in-class learned knowledge and skills. There will be both ROS simulation and real-world robot manipulation parts in the project.
+
+\section{Short technical summary of approach}
+Although the Turtlebot3 has an on-board SLAM algorithm using the Lidar and wheel encoders, we want to experiment with our own SLAM algorithm with loop detection to achieve better map quality. Our system will have three main components: mapping, localization, and loop detection. We will use occupancy grid for mapping, particle filter for localization, and Lidar-based registration algorithm for loop detection. Moreover, Ros msgs, srvs, actions and gazebo plugins will be implemented to facilitate the simulation. 
+\begin{itemize}
+    \item \textit{Msgs:}\\
+    Communications between different SLAM modules will be achieved through custom ROS msgs. 
+    \item \textit{Srvs:}\\
+   The request/reply between different SLAM modules will be achieved using services which defined as a pair of messages.
+   \item \textit{Actions:}\\
+   After the map is built, Turtlebot3 will follow the navigation or manipulation commands through ROS actions.
+   \item \textit{Gazebo Plugins:}\\
+   Gazebo simulation will be conducted before implementing our SLAM algorithm on the real robot. In such case, model and sensor plugins will be implemented.  
+\end{itemize}
+\section{Deliverables}
+Project deliverables are listed as follows:
+\begin{itemize}
+    \item \textbf{Minimum Deliverables}
+    \begin{itemize}
+        \item A working SLAM algorithm in both ROS simulation and real world implementation.
+    \end{itemize}
+    \item \textbf{Expected Deliverables}
+    \begin{itemize}
+        \item A working SLAM algorithm with loop detection in both ROS simulation and real world implementation.
+    \end{itemize}
+    \item \textbf{Maximum Deliverables}
+    \begin{itemize}
+        \item A working SLAM algorithm with loop detection in both ROS simulation and real world implementation, plus custom robot navigation or manipulation through ROS actions.
+    \end{itemize}
+\end{itemize}
+
+
+
+\end{document}
