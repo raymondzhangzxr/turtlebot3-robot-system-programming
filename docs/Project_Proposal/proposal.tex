@@ -22,19 +22,25 @@
 \maketitle
 
 \section{Stated Topic}
-This project will implement a SLAM algorithm and loop detection on the Turtlebot3 platform to improve map quality. We will focus on integrating available SLAM algorithms and ROS by applying in-class learned knowledge and skills. There will be both ROS simulation and real-world robot manipulation parts in the project.
+This project will implement a SLAM algorithm with loop detection on the Turtlebot3 platform to improve map quality. We will focus on integrating available SLAM algorithms and ROS by applying in-class learned knowledge and skills. There will be both Gazebo simulation and real-world robot experiments in the project.
 
 \section{Short technical summary of approach}
-Although the Turtlebot3 has an on-board SLAM algorithm using the Lidar and wheel encoders, we want to experiment with our own SLAM algorithm with loop detection to achieve better map quality. Our system will have three main components: mapping, localization, and loop detection. We will use occupancy grid for mapping, particle filter for localization, and Lidar-based registration algorithm for loop detection. Moreover, Ros msgs, srvs, actions and gazebo plugins will be implemented to facilitate the simulation. 
+Although the Turtlebot3 has an on-board SLAM algorithm using the Lidar and wheel encoders, we want to experiment with our own SLAM algorithm with loop detection to achieve better map quality. Our system will have three main components: mapping, localization, and loop detection. We will use occupancy grid for mapping, particle filter for localization, and Lidar-based registration algorithm for loop detection. Moreover, Ros msgs, srvs, actions and gazebo plugins will be implemented to facilitate the simulation. Followings are the packages we plan to implement:
 \begin{itemize}
-    \item \textit{Msgs:}\\
-    Communications between different SLAM modules will be achieved through custom ROS msgs. 
-    \item \textit{Srvs:}\\
-   The request/reply between different SLAM modules will be achieved using services which defined as a pair of messages.
-   \item \textit{Actions:}\\
+    \item \textit{rsp\_slam\_msgs:}\\
+    Communications among SLAM modules will be achieved through custom ROS msgs. 
+    \item \textit{rsp\_slam\_srvs:}\\
+   The request/reply among SLAM modules will be achieved using services which defined as a pair of messages.
+   \item \textit{rsp\_slam\_actions:}\\
    After the map is built, Turtlebot3 will follow the navigation or manipulation commands through ROS actions.
-   \item \textit{Gazebo Plugins:}\\
-   Gazebo simulation will be conducted before implementing our SLAM algorithm on the real robot. In such case, model and sensor plugins will be implemented.  
+   \item \textit{rsp\_slam\_gazebo\_Plugins:}\\
+   Gazebo simulation will be conducted before deploying our SLAM algorithm on the real robot. In such case, model and sensor plugins will be implemented. 
+   \item \textit{rsp\_slam\_localization:} \\
+   Localization module.
+   \item \textit{rsp\_slam\_mapping:}\\
+   Mapping module.
+   \item \textit{rsp\_slam\_loop\_detection:}\\
+   Loop detection module.
 \end{itemize}
 \section{Deliverables}
 Project deliverables are listed as follows:
