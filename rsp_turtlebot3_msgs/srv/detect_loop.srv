@@ -1,0 +1,4 @@
+sensor_msgs/LaserScan scan
+rsp_turtlebot3_pose pose
+---
+bool detected

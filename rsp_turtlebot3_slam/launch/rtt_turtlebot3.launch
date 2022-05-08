@@ -1,0 +1,11 @@
+<launch>
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch"></include>
+    <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch">
+        <arg name="slam_methods" value="gmapping"/>
+    </include>
+    <include file="$(find turtlebot3_navigation)/launch/move_base.launch"></include>
+    <!-- <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch"></include> -->
+
+
+    <!-- <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rtt_turtlebot3)/script/turtlebot3.ops" output="screen"></node> -->
+</launch>
