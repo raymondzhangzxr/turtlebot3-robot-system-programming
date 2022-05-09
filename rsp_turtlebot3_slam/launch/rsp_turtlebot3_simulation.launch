@@ -37,5 +37,5 @@
 
     <include file="$(find turtlebot3_navigation)/launch/move_base.launch"></include>
 
-    <!-- <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rtt_turtlebot3)/script/turtlebot3.ops" output="screen"></node> -->
+    
 </launch>

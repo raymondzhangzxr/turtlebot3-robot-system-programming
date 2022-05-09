@@ -1,0 +1,5 @@
+<launch>
+    <node name="rsp_loop_detection" pkg="rsp_loop_detection" type="rsp_loop_detection_node" output="screen">
+        <rosparam file="$(find rsp_loop_detection)/param/loop_detection_params.yaml" command="load" />
+    </node>
+</launch>

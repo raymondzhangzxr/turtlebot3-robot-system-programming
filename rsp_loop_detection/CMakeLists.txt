@@ -8,11 +8,8 @@ project(rsp_loop_detection)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
   roscpp
-  sensor_msgs
-  std_msgs
-  tf
+  rsp_turtlebot3_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -123,9 +120,13 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/loop_detection.cpp
-# )
+add_library(rsp_loop_detection
+  src/rsp_loop_detector.cpp
+)
+target_link_libraries(rsp_loop_detection
+  ${catkin_LIBRARIES}
+)
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -135,7 +136,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(test_node src/test_node.cpp)
+add_executable(rsp_loop_detection_node src/rsp_loop_detection_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,8 +149,8 @@ add_executable(test_node src/test_node.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(test_node
-  ${catkin_LIBRARIES}
+target_link_libraries(rsp_loop_detection_node
+  rsp_loop_detection
 )
 
 #############

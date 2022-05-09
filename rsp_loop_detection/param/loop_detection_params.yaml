@@ -1,0 +1,17 @@
+# service names
+add_scan_service: add_scan
+detect_loop_service: detect_loop
+# minimum distance between adjacent scans saved in loop detection database [m]
+scan_distance: 0.1
+# threshold value for determining loop
+similarity_threshold: 1.0
+# search window for yaw angle when matching two scan [degree]
+yaw_search_window: 30
+# number of recent scan ignore when detecting loop
+ignore_recent_scan: 10 
+# number of ranges per scan
+num_ranges: 360
+# minimum number of valid range required for matching two scan
+min_num_valid_ranges : 180
+# maximum range under consideration
+max_range: 3.0

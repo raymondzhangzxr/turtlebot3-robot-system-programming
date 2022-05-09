@@ -1,0 +1,3 @@
+<launch>
+    <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rsp_turtlebot3_slam)/script/turtlebot3.ops" output="screen"></node>
+</launch>
