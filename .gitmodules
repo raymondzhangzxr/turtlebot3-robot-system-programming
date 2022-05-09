@@ -2,3 +2,7 @@
 	path = turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 	branch = kinetic-devel
+[submodule "turtlebot3"]
+	path = turtlebot3
+	url = git@github.com:mxchenggggg/turtlebot3.git
+	branch = melodic-devel
