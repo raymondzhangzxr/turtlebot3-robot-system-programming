@@ -4,8 +4,10 @@
 #include <ros/ros.h>
 #include <tf/transform_listener.h>
 
+#include "nav_msgs/OccupancyGrid.h"
 #include "rsp_turtlebot3_msgs/rsp_turtlebot3_pose.h"
 #include "rtt/TaskContext.hpp"
+#include "sensor_msgs/LaserScan.h"
 
 class RttTurtlebot3 : public RTT::TaskContext {
    public:
@@ -20,12 +22,26 @@ class RttTurtlebot3 : public RTT::TaskContext {
     void stopHook() override;
     void cleanupHook() override;
 
-    rsp_turtlebot3_msgs::rsp_turtlebot3_pose getRobotPose();
-    void setRobotPos(const rsp_turtlebot3_msgs::rsp_turtlebot3_pose& jnt_pos);
+    // RTT operation callbacks
+    rsp_turtlebot3_msgs::rsp_turtlebot3_pose getRobotPoseClbk() const;
+    void setRobotPosClbk(
+        const rsp_turtlebot3_msgs::rsp_turtlebot3_pose& jnt_pos);
+    void detectLoopClbk();
+    void exploreClbk();
+
+    // Subscriber callbacks
+    void scanSubClbk(const sensor_msgs::LaserScanConstPtr& msg);
+    void mapSubClbk(const nav_msgs::OccupancyGridConstPtr& msg);
 
    private:
+    // get robot pose from tf
     rsp_turtlebot3_msgs::rsp_turtlebot3_pose _get_robot_pose() const;
 
+    // move robot by sending action request to move_base
+    void _move_robot(
+        const rsp_turtlebot3_msgs::rsp_turtlebot3_pose& robot_pose);
+
+    // move base action client callbacks
     void _move_base_done_clbk(
         const actionlib::SimpleClientGoalState& state,
         const move_base_msgs::MoveBaseResultConstPtr& result) const;
@@ -33,10 +49,35 @@ class RttTurtlebot3 : public RTT::TaskContext {
     void _move_base_active_clbk() const;
 
     void _move_base_feedback_clbk(
-        const  move_base_msgs::MoveBaseFeedbackConstPtr& feedback) const;
+        const move_base_msgs::MoveBaseFeedbackConstPtr& feedback) const;
 
+    // move base action client
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>
         _move_base_client;
+    // actionlib::SimpleActionClient<actionlib_msgs::GoalID>
+    //     _move_base_cancel_client;
 
+    // tf listener
     tf::TransformListener _tf_listener;
+
+    // node handle
+    ros::NodeHandle _nh;
+
+    // frontier_exploration client
+    ros::ServiceClient _frontier_exlore_client;
+
+    // loop detection clients
+    ros::ServiceClient _add_scan_client;
+    ros::ServiceClient _loop_detection_client;
+
+    // scan subscriber
+    ros::Subscriber _scan_sub;
+
+    // map subscriber
+    ros::Subscriber _map_sub;
+
+    bool _detect_loop;
+    bool _explore;
+    sensor_msgs::LaserScan _curr_scan;
+    nav_msgs::OccupancyGrid _curr_map;
 };

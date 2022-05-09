@@ -1,3 +1,5 @@
 <launch>
-    <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rsp_turtlebot3_slam)/script/turtlebot3.ops" output="screen"></node>
+    <include file="$(find rsp_loop_detection)/launch/rsp_loop_detection.launch" />
+    <node name="rsp_frontier_explorer_service" pkg = "rsp_wf_frontier_exploration" type="rsp_wf_frontier_exploration_node" output="screen"></node>
+    <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rsp_turtlebot3_slam)/scripts/turtlebot3.ops" output="screen"></node>
 </launch>

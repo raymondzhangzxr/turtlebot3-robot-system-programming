@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rsp_turtlebot3_slam)
+project(rsp_wf_frontier_exploration)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,19 +8,13 @@ project(rsp_turtlebot3_slam)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rtt_std_msgs
-  rtt_geometry_msgs
-  rtt_nav_msgs
-  rtt_sensor_msgs
-  rtt_ros
-  rtt_rosnode
-  rtt_rosparam
-  actionlib
-  tf
   rsp_turtlebot3_msgs
-  actionlib
-  actionlib_msgs
+  geometry_msgs
+  nav_msgs
+  roscpp
+  sensor_msgs
+  std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -80,7 +74,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   rtt_geometry_msgs#   rtt_nav_msgs#   rtt_sensor_msgs#   rtt_std_msgs
+#   geometry_msgs#   nav_msgs#   sensor_msgs#   std_msgs
 # )
 
 ################################################
@@ -114,8 +108,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rsp_turtlebot3_slam
-#  CATKIN_DEPENDS roscpp rtt_geometry_msgs rtt_nav_msgs rtt_ros rtt_rosparam rtt_sensor_msgs rtt_std_msgs
+#  LIBRARIES rsp_wf_frontier_exploration
+#  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp sensor_msgs std_msgs tf
 #  DEPENDS system_lib
 )
 
@@ -130,15 +124,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-orocos_component( rtt_rsp_turtlebot3_slam src/rtt_rsp_turtlebot3_slam.cpp)
-target_link_libraries( rtt_rsp_turtlebot3_slam
-  ${catkin_LIBRARIES}
-)
-
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/rsp_turtlebot3_slam.cpp
-# )
+add_library(rsp_wf_frontier_exploration
+  src/front_exp_server.cpp
+  src/wavefront_frontier_detection.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -148,7 +138,9 @@ target_link_libraries( rtt_rsp_turtlebot3_slam
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/rsp_turtlebot3_slam_node.cpp)
+add_executable(rsp_wf_frontier_exploration_node 
+  src/front_exp_server_node.cpp
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -161,10 +153,13 @@ target_link_libraries( rtt_rsp_turtlebot3_slam
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
-
+target_link_libraries(rsp_wf_frontier_exploration
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(rsp_wf_frontier_exploration_node
+  ${catkin_LIBRARIES}
+  rsp_wf_frontier_exploration
+)
 #############
 ## Install ##
 #############
@@ -212,7 +207,7 @@ target_link_libraries( rtt_rsp_turtlebot3_slam
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rsp_turtlebot3_slam.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rsp_wf_frontier_exploration.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

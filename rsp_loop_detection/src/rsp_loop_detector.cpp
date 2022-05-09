@@ -12,6 +12,7 @@ LoopDetector::LoopDetector(ros::NodeHandle& nh) : _nh(nh) {
     _loop_detection_server = _nh.advertiseService(
         loop_detection_service, &LoopDetector::detect_loop, this);
 
+
     // parameters for loop detector
     _nh.param<double>("scan_distance", _scan_distance, 0.1);
     _nh.param<double>("similarity_threshold", _similarity_threshold, 1.0);
@@ -34,6 +35,7 @@ bool LoopDetector::add_scan(add_scan_req& req, add_scan_res& res) {
         const double dis = sqrt(dx * dx + dy * dy);
         if (dis > _scan_distance) {
             _scans.emplace_back(req);
+            std::cout << "added new scan!" << std::endl;
         }
     }
     res.num_scans = _scans.size();
@@ -43,6 +45,7 @@ bool LoopDetector::add_scan(add_scan_req& req, add_scan_res& res) {
 bool LoopDetector::detect_loop(rsp_turtlebot3_msgs::detect_loopRequest& req,
                                rsp_turtlebot3_msgs::detect_loopResponse& res) {
     double best_similarity = std::numeric_limits<double>::max();
+    std::cout << "Number of Scans: " << _scans.size() << std::endl;
     for (int i = 0; i < _scans.size() - _ignore_recent_scan; ++i) {
         const auto& cand_scan = _scans[i];
         const int yaw_offset =

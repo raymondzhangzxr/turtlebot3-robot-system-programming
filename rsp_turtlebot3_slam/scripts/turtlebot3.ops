@@ -5,7 +5,7 @@ import("rtt_rsp_turtlebot3_msgs")
 import("rsp_turtlebot3_slam")
 
 loadComponent("rtt_rsp_turtlebot3_slam", "RttTurtlebot3")
-setActivity("rtt_rsp_turtlebot3_slam", 0.01, 0, ORO_SCHED_OTHER)
+setActivity("rtt_rsp_turtlebot3_slam", 1, 0, ORO_SCHED_OTHER)
 
 rtt_rsp_turtlebot3_slam.configure()
 rtt_rsp_turtlebot3_slam.start()
