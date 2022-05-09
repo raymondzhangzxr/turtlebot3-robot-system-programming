@@ -9,7 +9,7 @@
 
 RttTurtlebot3::RttTurtlebot3(const std::string& name)
     : RTT::TaskContext(name),
-      _move_base_client("move_base"),
+      _move_base_client("move_base", true),
       _detect_loop(false),
       _explore(false) {
     // setup operations
@@ -22,7 +22,6 @@ RttTurtlebot3::RttTurtlebot3(const std::string& name)
     addOperation("Explore", &RttTurtlebot3::exploreClbk, this, RTT::OwnThread);
 
     _move_base_client.waitForServer();
-    // _move_base_cancel_client.waitForServer();
 
     // loop detection clients
     std::string add_scan_service;
@@ -61,29 +60,39 @@ bool RttTurtlebot3::startHook() { return true; }
 void RttTurtlebot3::updateHook() {
     if (!_detect_loop) {
         rsp_turtlebot3_msgs::add_scan_to_loop_detection_database srv;
-        srv.request.pose = _get_robot_pose();
         srv.request.scan = _curr_scan;
+        srv.request.pose = _get_robot_pose(_curr_scan.header.stamp);
         _add_scan_client.call(srv);
     } else {
         _detect_loop = false;
         rsp_turtlebot3_msgs::detect_loop srv;
-        srv.request.pose = _get_robot_pose();
         srv.request.scan = _curr_scan;
+        srv.request.pose = _get_robot_pose(_curr_scan.header.stamp);
         _loop_detection_client.call(srv);
         ROS_INFO_STREAM(
             "Detect loop: " << (srv.response.detected ? "Success" : "Failure"));
     }
 
-    if (_explore) {
-        rsp_turtlebot3_msgs::get_frontier_exploration_goal srv;
-        srv.request.curr_pose = _get_robot_pose();
-        srv.request.map = _curr_map;
+    auto move_base_state = _move_base_client.getState();
+    if (move_base_state == move_base_state.ACTIVE &&
+        ros::Time::now() - _last_goal_start_time > ros::Duration(5.0)) {
+        _move_base_client.cancelGoal();
+        ROS_INFO_STREAM("Canceled goal");
+    }
 
-        if (_frontier_exlore_client.call(srv)) {
-            const auto& pose = srv.response.goal_pose;
-            ROS_INFO_STREAM("Explore goal pose [x, y, yaw] = "
-                            << pose.x << " " << pose.y << " " << pose.yaw);
-            _move_robot(pose);
+    if (_explore) {
+        move_base_state = _move_base_client.getState();
+        if (move_base_state != move_base_state.ACTIVE) {
+            rsp_turtlebot3_msgs::get_frontier_exploration_goal srv;
+            srv.request.map = _curr_map;
+            srv.request.curr_pose = _get_robot_pose(_curr_map.header.stamp);
+
+            if (_frontier_exlore_client.call(srv)) {
+                const auto& pose = srv.response.goal_pose;
+                ROS_INFO_STREAM("Explore goal pose [x, y, yaw] = "
+                                << pose.x << " " << pose.y << " " << pose.yaw);
+                _move_robot(pose);
+            }
         }
     }
 }
@@ -104,7 +113,7 @@ void RttTurtlebot3::setRobotPosClbk(
 
 void RttTurtlebot3::detectLoopClbk() { _detect_loop = true; }
 
-void RttTurtlebot3::exploreClbk() {_explore = true; }
+void RttTurtlebot3::exploreClbk() { _explore = true; }
 
 /* #################### subscribers callbacks #################### */
 
@@ -126,18 +135,18 @@ double get_yaw_from_quaternion(double x, double y, double z, double w) {
     return yaw;
 }
 
-rsp_turtlebot3_msgs::rsp_turtlebot3_pose RttTurtlebot3::_get_robot_pose()
-    const {
+rsp_turtlebot3_msgs::rsp_turtlebot3_pose RttTurtlebot3::_get_robot_pose(
+    ros::Time stamp) const {
     tf::StampedTransform transform;
     rsp_turtlebot3_msgs::rsp_turtlebot3_pose pose;
     pose.x = 0.0;
     pose.y = 0.0;
     pose.yaw = 0.0;
     try {
-        ros::Time now = ros::Time::now();
-        _tf_listener.waitForTransform("/map", "/base_footprint", now,
+        _tf_listener.waitForTransform("/map", "/base_footprint", stamp,
                                       ros::Duration(3.0));
-        _tf_listener.lookupTransform("/map", "/base_footprint", now, transform);
+        _tf_listener.lookupTransform("/map", "/base_footprint", stamp,
+                                     transform);
         pose.x = transform.getOrigin().x();
         pose.y = transform.getOrigin().y();
         const auto q = transform.getRotation();
@@ -163,16 +172,12 @@ void RttTurtlebot3::_move_robot(
     goal.target_pose.pose.orientation.y = q.y();
     goal.target_pose.pose.orientation.z = q.z();
 
+    _last_goal_start_time = ros::Time::now();
+
     _move_base_client.sendGoal(
         goal, boost::bind(&RttTurtlebot3::_move_base_done_clbk, this, _1, _2),
         boost::bind(&RttTurtlebot3::_move_base_active_clbk, this),
         boost::bind(&RttTurtlebot3::_move_base_feedback_clbk, this, _1));
-    bool success = _move_base_client.waitForResult(ros::Duration(5.0));
-
-    if (!success) {
-        _move_base_client.cancelGoal();
-        ROS_INFO_STREAM("Canceled goal");
-    }
 }
 
 /* #################### move base action client callbacks ####################
@@ -193,8 +198,9 @@ void RttTurtlebot3::_move_base_feedback_clbk(
     const auto q = feedback->base_position.pose.orientation;
     const double yaw = get_yaw_from_quaternion(q.x, q.y, q.z, q.w);
 
-    ROS_INFO_STREAM("Current robot pose [x, y, yaw] = " << x << " " << y << " "
-                                                        << yaw);
+    // ROS_INFO_STREAM("Current robot pose [x, y, yaw] = " << x << " " << y << "
+    // "
+    // << yaw);
 }
 
 ORO_CREATE_COMPONENT(RttTurtlebot3);

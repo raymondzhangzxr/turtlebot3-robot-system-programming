@@ -27,26 +27,38 @@ bool FrontierExplorer::getGoal(
         wfd(map, map.info.height, map.info.width,
             grid_x + (grid_y * map.info.width));
 
-    // for (int i = 0; i < frontiers.size(); i++) {
-    //     for (int j = 0; j < frontiers[i].size(); j++) {
-    //         float x = ((frontiers[i][j] % map.info.width)) * resolution +
-    //         origin_x; float y = ((frontiers[i][j] / map.info.width)) *
-    //         resolution + origin_y; float dis =
-    //             sqrt(pow(x - current_x, 2) + pow(y - current_y, 2) * 1.0);
-    //         if (dis > max_dis) {
-    //             // return the closest frontier points
-    //             max_dis = dis;
-    //             res.goal_pose.x = x;
-    //             res.goal_pose.y = y;
-    //         }
-    //     }
-    // }
 
-    float x = ((frontiers[0][0] % map.info.width)) * resolution + origin_x;
-    float y = ((frontiers[0][0] / map.info.width)) * resolution + origin_y;
-    res.goal_pose.x = x;
-    res.goal_pose.y = y;
-    
+    res.goal_pose.x = current_x;
+    res.goal_pose.y = current_y;
+
+    for (int i = 0; i < frontiers.size(); i++) {
+        for (int j = 0; j < frontiers[i].size(); j++) {
+            float x =
+                ((frontiers[i][j] % map.info.width)) * resolution + origin_x;
+            float y =
+                ((frontiers[i][j] / map.info.width)) * resolution + origin_y;
+            float diff_x = x - current_x;
+            float diff_y = y - current_y;
+
+            if(fabs(diff_x) > 2.5 || fabs(diff_y) > 2.5){
+                continue;
+            }
+
+            float dis = sqrt(diff_x * diff_x + diff_y * diff_y);
+            if (dis > max_dis) {
+                // return the closest frontier points
+                max_dis = dis;
+                res.goal_pose.x = x;
+                res.goal_pose.y = y;
+            }
+        }
+    }
+
+    // float x = ((frontiers[0][0] % map.info.width)) * resolution + origin_x;
+    // float y = ((frontiers[0][0] / map.info.width)) * resolution + origin_y;
+    // res.goal_pose.x = x;
+    // res.goal_pose.y = y;
+
     // no yaw change
     res.goal_pose.yaw = current_pose.yaw;
     return true;

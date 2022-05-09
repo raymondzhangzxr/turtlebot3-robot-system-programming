@@ -35,7 +35,8 @@ class RttTurtlebot3 : public RTT::TaskContext {
 
    private:
     // get robot pose from tf
-    rsp_turtlebot3_msgs::rsp_turtlebot3_pose _get_robot_pose() const;
+    rsp_turtlebot3_msgs::rsp_turtlebot3_pose _get_robot_pose(
+        ros::Time stamp = ros::Time::now()) const;
 
     // move robot by sending action request to move_base
     void _move_robot(
@@ -54,8 +55,6 @@ class RttTurtlebot3 : public RTT::TaskContext {
     // move base action client
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>
         _move_base_client;
-    // actionlib::SimpleActionClient<actionlib_msgs::GoalID>
-    //     _move_base_cancel_client;
 
     // tf listener
     tf::TransformListener _tf_listener;
@@ -78,6 +77,7 @@ class RttTurtlebot3 : public RTT::TaskContext {
 
     bool _detect_loop;
     bool _explore;
+    ros::Time _last_goal_start_time;
     sensor_msgs::LaserScan _curr_scan;
     nav_msgs::OccupancyGrid _curr_map;
 };

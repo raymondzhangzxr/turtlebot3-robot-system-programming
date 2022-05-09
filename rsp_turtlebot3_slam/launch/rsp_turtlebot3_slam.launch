@@ -1,5 +1,11 @@
 <launch>
-    <include file="$(find rsp_loop_detection)/launch/rsp_loop_detection.launch" />
-    <node name="rsp_frontier_explorer_service" pkg = "rsp_wf_frontier_exploration" type="rsp_wf_frontier_exploration_node" output="screen"></node>
-    <node name="deployer" pkg="rtt_ros" type="deployer" args="-s $(find rsp_turtlebot3_slam)/scripts/turtlebot3.ops" output="screen"></node>
+    <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch">
+        <arg name="slam_methods" value="gmapping" />
+        <arg name="open_rviz" value="false"/>
+    </include>
+
+    <include file="$(find turtlebot3_navigation)/launch/move_base.launch"></include>
+
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find rsp_turtlebot3_slam)/rviz/slam.rviz"/>
 </launch>

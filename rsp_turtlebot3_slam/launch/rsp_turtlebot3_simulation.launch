@@ -1,15 +1,14 @@
 <launch>
-    <arg name="record" default="false" />
-    <arg name="secs" default="30" />
-    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]" />
-    <!-- <arg name="model" default="burger"/> We use burger only -->
+    <arg name="model" default="burger" />
     <arg name="x_pos" default="-4.25" />
     <arg name="y_pos" default="-4.25" />
     <arg name="z_pos" default="0.0" />
 
+    <arg name="record" default="false" />
+    <arg name="secs" default="30" />
+
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find rsp_turtlebot3_slam)/world/maze.world" />
-        <!-- <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world" /> -->
         <arg name="paused" value="false" />
         <arg name="use_sim_time" value="true" />
         <arg name="gui" value="true" />
@@ -17,25 +16,22 @@
         <arg name="debug" value="false" />
     </include>
 
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+    <param 
+        name="robot_description" 
+        command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
 
-    <!-- launch gazebo -->
-    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
-
-    <!-- launch slam (use gmapping) -->
-    <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch">
-        <arg name="slam_methods" value="gmapping" />
-    </include>
+    <node
+        pkg="gazebo_ros"
+        type="spawn_model"
+        name="spawn_urdf"
+        args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
 
     <node
         pkg="rosbag"
         name="record"
         type="record"
         args="-a -x /camera/(.*) --duration=$(arg secs) -O $(find turtlebot_walker)/results/turtlebotRecord.bag"
-        if="$(arg record)"
-    />
+        if="$(arg record)" />
 
-    <include file="$(find turtlebot3_navigation)/launch/move_base.launch"></include>
-
-    
+    <include file="$(find rsp_turtlebot3_slam)/launch/rsp_turtlebot3_slam.launch" />
 </launch>
