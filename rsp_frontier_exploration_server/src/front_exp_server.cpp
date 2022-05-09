@@ -6,6 +6,9 @@
         turtle_pose current_pose = req.curr_pose;
         float current_x = current_pose.x;
         float current_y = current_pose.y;
+        // no yaw change, change x,y to the closest frontier if frontier is detected
+        res.goal_pose = current_pose;
+        
         nav_msgs::OccupancyGrid map = req.map;
         float resolution = map.info.resolution;
 		float map_x = map.info.origin.position.x / resolution;
@@ -30,8 +33,7 @@
 			}
 		}
         
-        // no yaw change
-        res.goal_pose.yaw = current_pose.yaw;
+        
         return true;
 
     }
