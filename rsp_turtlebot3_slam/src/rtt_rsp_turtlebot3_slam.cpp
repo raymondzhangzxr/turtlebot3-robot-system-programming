@@ -44,7 +44,7 @@ void RttTurtlebot3::setRobotPos(
         goal, boost::bind(&RttTurtlebot3::_move_base_done_clbk, this, _1, _2),
         boost::bind(&RttTurtlebot3::_move_base_active_clbk, this),
         boost::bind(&RttTurtlebot3::_move_base_feedback_clbk, this, _1));
-    _move_base_client.waitForResult();
+    // _move_base_client.waitForResult(ros::Duration(10.0));
 }
 
 double get_yaw_from_quaternion(double x, double y, double z, double w) {

@@ -1,7 +1,3 @@
-[submodule "workspace/src/turtlebot3_simulations"]
-	path = workspace/src/turtlebot3_simulations
-	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-	branch = melodic-devel
 [submodule "turtlebot3_simulations"]
 	path = turtlebot3_simulations
 	url = https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git

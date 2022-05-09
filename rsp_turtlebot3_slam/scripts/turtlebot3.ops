@@ -10,3 +10,4 @@ setActivity("rtt_rsp_turtlebot3_slam", 0.01, 0, ORO_SCHED_OTHER)
 rtt_rsp_turtlebot3_slam.configure()
 rtt_rsp_turtlebot3_slam.start()
 
+var rsp_turtlebot3_msgs.rsp_turtlebot3_pose p = rtt_rsp_turtlebot3_slam.GetRobotPose()
