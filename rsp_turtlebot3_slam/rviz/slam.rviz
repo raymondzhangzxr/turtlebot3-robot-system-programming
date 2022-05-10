@@ -8,6 +8,8 @@ Panels:
         - /Map1
         - /GlobalCostmap1
         - /LocalCostmap1
+        - /LocalPlanPath1
+        - /GlobalPlanPath1
       Splitter Ratio: 0.594406008720398
     Tree Height: 755
   - Class: rviz/Selection
@@ -187,6 +189,52 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: LocalPlanPath
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /move_base/DWAPlannerROS/local_plan
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 239; 41; 41
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: GlobalPlanPath
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /move_base/DWAPlannerROS/global_plan
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -224,11 +272,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 138.09512329101562
+      Scale: 143.06948852539062
       Target Frame: map
       Value: TopDownOrtho (rviz)
-      X: -4.375049114227295
-      Y: -4.333401679992676
+      X: 1.7398743629455566
+      Y: -1.9116761684417725
     Saved: ~
 Window Geometry:
   Displays:
