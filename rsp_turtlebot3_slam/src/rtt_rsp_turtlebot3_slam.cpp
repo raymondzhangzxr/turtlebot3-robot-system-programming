@@ -106,13 +106,14 @@ void RttTurtlebot3::updateHook() {
         }
     }
     if (_randomWalk) {
-        float running_time = 5.0;
         rsp_turtlebot3_msgs::RandomWalkGoal rw_goal;
-        rw_goal.goal_time = running_time;
+        rw_goal.goal_time = _randomWalkTime;
         _random_walk_client.sendGoal(rw_goal);
+
         ROS_INFO("Waiting for result");
-        bool rw_res = _random_walk_client.waitForResult(ros::Duration(10));
+        bool rw_res = _random_walk_client.waitForResult(ros::Duration(_randomWalkTime + 2.0));
         if (rw_res){
+            _random_walk_client.cancelGoal();
             _randomWalk = false;
         }
     }
@@ -136,7 +137,10 @@ void RttTurtlebot3::detectLoopClbk() { _detect_loop = true; }
 
 void RttTurtlebot3::exploreClbk() { _explore = true; }
 
-void RttTurtlebot3::randomWalkClbk() { _randomWalk = true; }
+void RttTurtlebot3::randomWalkClbk(const float& running_time) { 
+    _randomWalk = true; 
+    _randomWalkTime = running_time;
+}
 
 void RttTurtlebot3::stopClbk(){ 
     _randomWalk = false;

@@ -29,7 +29,7 @@ class RttTurtlebot3 : public RTT::TaskContext {
     void detectLoopClbk();
     void exploreClbk();
 
-    void randomWalkClbk();
+    void randomWalkClbk(const float& running_time);
     void stopClbk();
 
     // Subscriber callbacks
@@ -87,6 +87,7 @@ class RttTurtlebot3 : public RTT::TaskContext {
     bool _detect_loop;
     bool _explore;
     bool _randomWalk;
+    float _randomWalkTime;
     
     ros::Time _last_goal_start_time;
     sensor_msgs::LaserScan _curr_scan;
