@@ -1,0 +1,12 @@
+# random walk linear speed:
+linear_speed: 0.2
+# random walk angular speed:
+angular_speed: 1
+# scan threshold: convert inf to threshold 
+threshold: 0.5
+# collision free bubble size
+bubble_size: 0.4
+# prob for CCW rotation
+CCW_prob: 0.5
+# path planning rate (HZ)
+planning_rate: 2

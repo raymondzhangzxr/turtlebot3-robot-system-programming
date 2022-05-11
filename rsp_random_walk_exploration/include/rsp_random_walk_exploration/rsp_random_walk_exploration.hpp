@@ -32,10 +32,15 @@ class RandomWalk{
         sensor_msgs::LaserScan _curr_scan;
         ros::Publisher _vel_pub;
         ros::Subscriber _scan_sub;
+        enum collisonConstants{
+            _frontCollsion=1,
+            _rearCollision=2,
+            _noCollision=0,
+        };
         float _linearSpeed;
         float _angularSpeed;
-        
-    
-    
-
+        float _threshold;
+        float _bubbleSize;
+        float _CCW_prob;
+        int _rate;
 };

@@ -13,6 +13,7 @@
         pkg="rsp_random_walk_exploration" 
         type="randomWalk_node"  
         output="screen"></node>
+        <rosparam file="$(find rsp_random_walk_exploration)/param/random_walk_params.yaml" command="load" />
 
     <node
         name="deployer"

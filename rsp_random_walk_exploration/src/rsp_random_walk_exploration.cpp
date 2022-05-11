@@ -6,11 +6,15 @@ RandomWalk::RandomWalk(ros::NodeHandle& nh) : _nh(nh){
         _scan_sub = _nh.subscribe("scan", 100, &RandomWalk::scanSubCB, this);
         _vel_pub = _nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
         zeroTwist();
-        _linearSpeed = 0.2;
-        _angularSpeed = 1;
-        
         _as.reset(new _RandomWalkServer(_nh,"RandomWalkAction",boost::bind(&RandomWalk::executeCB, this, _1),false));
         _as->start();
+        // params for random walk
+        _nh.param<float>("linear_speed", _linearSpeed, 0.2);
+        _nh.param<float>("angular_speed", _angularSpeed, 1);
+        _nh.param<float>("threshold", _threshold, 0.5);
+        _nh.param<float>("bubble_size", _bubbleSize, 0.4);
+        _nh.param<float>("CCW_prob", _CCW_prob, 0.5);
+        _nh.param<int>("planning_rate", _rate, 2);
 }
 
 // operational functions
@@ -27,25 +31,25 @@ void RandomWalk::zeroTwist(){
 void RandomWalk::linearPathGenerator()
 {   
     switch (_collision_region){
-        case 1:
+        case _frontCollsion:
             // obstacle in front of the turtlebot
             // 50% rotate CCW
             ROS_INFO_STREAM("obstacle in front ");
             _twist.linear.x = 0;
-            if((std::rand()/RAND_MAX) <= 0.5){
+            if((std::rand()/RAND_MAX) <= _CCW_prob){
                 _twist.angular.z = _angularSpeed;
             }
             else{
                 _twist.angular.z = -_angularSpeed;
             }
             break;
-        case 2:
+        case _rearCollision:
             // obstacle at the rear, keep moving
             ROS_INFO_STREAM("obstacle in rear ");
             _twist.linear.x = _linearSpeed;
             _twist.angular.z = 0.0;
             break;
-        case 0:
+        case _noCollision:
             // obstacle equal distance front and rear
             ROS_INFO_STREAM("no obstacle ");
             _twist.linear.x = _linearSpeed;
@@ -59,13 +63,12 @@ void RandomWalk::linearPathGenerator()
 // Callbacks
 void RandomWalk::scanSubCB(const sensor_msgs::LaserScanConstPtr& msg){
     std::vector<float> range_vec = msg->ranges;
-    // replace all the inf values by 0.5
-    float limit = 0.5;
-    std::replace(range_vec.begin(),range_vec.end(),std::numeric_limits<float>::infinity(), limit);
+    // replace all the inf values by threshold
+    std::replace(range_vec.begin(),range_vec.end(),std::numeric_limits<float>::infinity(), _threshold);
     double sum_front = 0, sum_rear = 0;
     for (int idx = 0; idx < range_vec.size(); ++idx){
         // ignore the value bigger than 0.5 (no collision beyond 0.5)
-        if(range_vec[idx]>=0.0 && range_vec[idx]<=0.4){
+        if(range_vec[idx]>=0.0 && range_vec[idx] <= _bubbleSize){
             // Get a rough feeling of where is the object, front (90 angles 315-44), rear (angle 135-225)
             switch (idx){
                 case 0 ... 44:
@@ -83,13 +86,13 @@ void RandomWalk::scanSubCB(const sensor_msgs::LaserScanConstPtr& msg){
     // all inf is 0.5, if sum_front is smaller, then object is closer in the front
     // collision_region 1 for front, 2 for rear, 0 for both equally distanced
     if (sum_front > sum_rear){
-        _collision_region = 1; 
+        _collision_region = _frontCollsion; 
     }
     if (sum_rear > sum_front){
-        _collision_region = 2; 
+        _collision_region = _rearCollision; 
     }
     if (sum_rear == sum_front){
-        _collision_region = 0;
+        _collision_region = _noCollision;
     }
 }
 
@@ -99,7 +102,7 @@ void RandomWalk::executeCB(const rsp_turtlebot3_msgs::RandomWalkGoalConstPtr &go
    ros::Time _CB_start_time = ros::Time::now();
    rsp_turtlebot3_msgs::RandomWalkFeedback randomWalk_feedback;
    while(ros::Time::now() - _CB_start_time < ros::Duration(goal->goal_time) ){
-        ros::Rate rate(2);
+        ros::Rate rate(_rate);
        // feed back how long is running
         linearPathGenerator();
         randomWalk_feedback.progress = float((ros::Time::now() - _CB_start_time).toSec());
