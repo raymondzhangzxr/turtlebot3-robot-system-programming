@@ -21,7 +21,6 @@ find_package(catkin REQUIRED COMPONENTS
   rsp_turtlebot3_msgs
   actionlib
   actionlib_msgs
-  rsp_random_walk_frontier_exploration
 )
 
 ## System dependencies are found with CMake's conventions

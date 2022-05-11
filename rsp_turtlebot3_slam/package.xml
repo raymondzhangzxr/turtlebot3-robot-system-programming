@@ -85,7 +85,7 @@
   <exec_depend>actionlib</exec_depend>
   <exec_depend>actionlib_msgs</exec_depend>
   <exec_depend>dwa_loacl_planner</exec_depend>
-  <exec_depend>rsp_random_walk_frontier_exploration</exec_depend>
+  <exec_depend>rsp_random_walk_exploration</exec_depend>
   
 
   <!-- The export tag contains other, unspecified, tags -->

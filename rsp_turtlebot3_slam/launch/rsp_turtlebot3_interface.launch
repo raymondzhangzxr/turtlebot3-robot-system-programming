@@ -9,9 +9,9 @@
 
     <!-- robot action node -->
     <node 
-        name="rsp_random_walk_frontier_exploration_node"
-        pkg="rsp_random_walk_frontier_exploration" 
-        type="rsp_random_walk_frontier_exploration_node"  
+        name="rsp_random_walk_exploration_node"
+        pkg="rsp_random_walk_exploration" 
+        type="randomWalk_node"  
         output="screen"></node>
 
     <node

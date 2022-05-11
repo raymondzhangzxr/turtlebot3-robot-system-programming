@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rsp_random_walk_frontier_exploration)
+project(rsp_random_walk_exploration)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,7 +10,6 @@ project(rsp_random_walk_frontier_exploration)
 find_package(catkin REQUIRED COMPONENTS
   rsp_turtlebot3_msgs
   geometry_msgs
-  move_base_msgs
   roscpp
   rospy
   sensor_msgs
@@ -74,7 +73,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   move_base_msgs#   sensor_msgs#   std_msgs
+#   geometry_msgs#   move_base_msgs#   rsp_turtlebot3_msgs#   sensor_msgs#   std_msgs
 # )
 
 ################################################
@@ -107,9 +106,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-INCLUDE_DIRS include
-#  LIBRARIES frontier_exploration
-CATKIN_DEPENDS rsp_turtlebot3_msgs geometry_msgs move_base_msgs roscpp rospy sensor_msgs std_msgs
+#  INCLUDE_DIRS include
+#  LIBRARIES rsp_random_walk_exploration
+#  CATKIN_DEPENDS geometry_msgs move_base_msgs roscpp rospy rsp_turtlebot3_msgs sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
@@ -123,16 +122,12 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
 )
-add_library(randomWalk
-  src/randomWalk_action.cpp
-)
+
 ## Declare a C++ library
-add_library(collision
-  src/collisionDetection.cpp
+add_library(randomWalk
+  src/rsp_random_walk_exploration.cpp
 )
-add_library(pathPlanning
-  src/pathPlanning.cpp
-)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -141,8 +136,8 @@ add_library(pathPlanning
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(rsp_random_walk_frontier_exploration_node 
-  src/randomWalk_action_node.cpp
+add_executable(randomWalk_node 
+src/rsp_random_walk_exploration_node.cpp
 )
 
 ## Rename C++ executable without prefix
@@ -156,23 +151,13 @@ add_executable(rsp_random_walk_frontier_exploration_node
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(collision
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(pathPlanning
+target_link_libraries(randomWalk
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(randomWalk
-  ${catkin_LIBRARIES}
-  pathPlanning
-  collision
-)
-target_link_libraries(rsp_random_walk_frontier_exploration_node
+target_link_libraries(randomWalk_node
   ${catkin_LIBRARIES}
   randomWalk
-  pathPlanning
-  collision
 )
 
 #############
@@ -222,7 +207,7 @@ target_link_libraries(rsp_random_walk_frontier_exploration_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_frontier_exploration.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rsp_random_walk_exploration.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
