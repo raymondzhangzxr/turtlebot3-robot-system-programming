@@ -124,7 +124,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(randomWalk
+add_library(rsp_random_walk_exploration
   src/rsp_random_walk_exploration.cpp
 )
 
@@ -136,7 +136,7 @@ add_library(randomWalk
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(randomWalk_node 
+add_executable(rsp_random_walk_exploration_node 
 src/rsp_random_walk_exploration_node.cpp
 )
 
@@ -151,13 +151,12 @@ src/rsp_random_walk_exploration_node.cpp
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(randomWalk
+target_link_libraries(rsp_random_walk_exploration
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(randomWalk_node
-  ${catkin_LIBRARIES}
-  randomWalk
+target_link_libraries(rsp_random_walk_exploration_node
+rsp_random_walk_exploration
 )
 
 #############
