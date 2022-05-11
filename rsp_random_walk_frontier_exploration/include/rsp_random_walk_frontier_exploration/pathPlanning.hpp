@@ -12,7 +12,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
 #include <geometry_msgs/Twist.h>
-#include <rsp_frontier_exploration/collisionDetection.hpp>
+#include <rsp_random_walk_frontier_exploration/collisionDetection.hpp>
 class pathPlanning {
  private:
   // Create collision detection object

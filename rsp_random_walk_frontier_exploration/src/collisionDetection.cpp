@@ -9,7 +9,7 @@
  * 
  */
 
-#include <rsp_frontier_exploration/collisionDetection.hpp>
+#include <rsp_random_walk_frontier_exploration/collisionDetection.hpp>
 
 collisionDetection::collisionDetection() {
   ROS_INFO("Initializing Collision Detection!");
@@ -47,10 +47,10 @@ void collisionDetection::laserCallback(const sensor_msgs::LaserScan::ConstPtr& m
   ROS_INFO_STREAM("Rear area: " << sum_rear);
   // all inf is 0.5, if sum_front is smaller, then object is closer in the front
   // collision_region 1 for front, 2 for rear, 0 for both equally distanced
-  if (sum_front < 5*sum_rear){
+  if (sum_front < sum_rear){
       collision_region = 1; 
   }
-  if (sum_rear < 5*sum_front){
+  if (sum_rear < sum_front){
       collision_region = 2; 
   }
   if (sum_rear == sum_front){
@@ -59,5 +59,6 @@ void collisionDetection::laserCallback(const sensor_msgs::LaserScan::ConstPtr& m
 }
 
 int collisionDetection::where_collision(){
+  ROS_INFO_STREAM("Calling where is collision ");
   return collision_region;
 }

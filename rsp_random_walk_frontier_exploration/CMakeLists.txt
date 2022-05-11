@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rsp_frontier_exploration)
+project(rsp_random_walk_frontier_exploration)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,6 +8,7 @@ project(rsp_frontier_exploration)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  rsp_turtlebot3_msgs
   geometry_msgs
   move_base_msgs
   roscpp
@@ -106,9 +107,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+INCLUDE_DIRS include
 #  LIBRARIES frontier_exploration
-#  CATKIN_DEPENDS geometry_msgs move_base_msgs roscpp rospy sensor_msgs std_msgs
+CATKIN_DEPENDS rsp_turtlebot3_msgs geometry_msgs move_base_msgs roscpp rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
@@ -122,7 +123,9 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
 )
-
+add_library(randomWalk
+  src/randomWalk_action.cpp
+)
 ## Declare a C++ library
 add_library(collision
   src/collisionDetection.cpp
@@ -138,9 +141,9 @@ add_library(pathPlanning
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(frontierExplorer_node 
-  src/frontierExplorer_node.cpp
-  )
+add_executable(rsp_random_walk_frontier_exploration_node 
+  src/randomWalk_action_node.cpp
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -159,10 +162,15 @@ target_link_libraries(collision
 target_link_libraries(pathPlanning
   ${catkin_LIBRARIES}
 )
-target_link_libraries(frontierExplorer_node 
+
+target_link_libraries(randomWalk
   ${catkin_LIBRARIES}
   pathPlanning
   collision
+)
+target_link_libraries(rsp_random_walk_frontier_exploration_node
+  ${catkin_LIBRARIES}
+  randomWalk
 )
 
 #############

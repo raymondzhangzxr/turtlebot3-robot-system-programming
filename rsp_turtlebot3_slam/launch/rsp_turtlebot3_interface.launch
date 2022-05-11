@@ -7,6 +7,13 @@
         type="rsp_wf_frontier_exploration_node"
         output="screen"></node>
 
+    <!-- robot action node -->
+    <node 
+        name="rsp_random_walk_frontier_exploration_node"
+        pkg="rsp_random_walk_frontier_exploration" 
+        type="rsp_random_walk_frontier_exploration_node"  
+        output="screen"></node>
+
     <node
         name="deployer"
         pkg="rtt_ros"

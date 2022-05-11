@@ -8,10 +8,10 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include <rsp_frontier_exploration/pathPlanning.hpp>
+#include <rsp_random_walk_frontier_exploration/pathPlanning.hpp>
 
 pathPlanning::pathPlanning()
-{
+{   ROS_INFO_STREAM("path planning constructor");
     // Set speed parameters
     linearSpeed = 0.2;
     angularSpeed = 1;
@@ -50,13 +50,15 @@ pathPlanning::~pathPlanning()
 void pathPlanning::linearPathGenerator()
 {
     ros::Rate rate(2);
+    std::cout<<"It's working"<<std::endl;
     //  check where is the obstacle and move accordingly
     switch (detector.where_collision()){
         case 1:
             // obstacle in front of the turtlebot
             // 50% rotate CCW
+            ROS_INFO_STREAM("obstacle in front ");
             twist.linear.x = 0;
-            if((std::rand()/RAND_MAX) <= 1){
+            if((std::rand()/RAND_MAX) <= 0.5){
                 twist.angular.z = angularSpeed;
             }
             else{
@@ -65,11 +67,13 @@ void pathPlanning::linearPathGenerator()
             break;
         case 2:
             // obstacle at the rear, keep moving
+            ROS_INFO_STREAM("obstacle in rear ");
             twist.linear.x = linearSpeed;
             twist.angular.z = 0.0;
             break;
         case 0:
             // obstacle equal distance front and rear
+            ROS_INFO_STREAM("no obstacle ");
             twist.linear.x = linearSpeed;
             twist.angular.z = 0.0;
             break;

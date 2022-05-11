@@ -1,17 +1,19 @@
 #include "rsp_turtlebot3_slam/rtt_rsp_turtlebot3_slam.hpp"
 
 #include <ros/ros.h>
-
 #include "rsp_turtlebot3_msgs/add_scan_to_loop_detection_database.h"
 #include "rsp_turtlebot3_msgs/detect_loop.h"
 #include "rsp_turtlebot3_msgs/get_frontier_exploration_goal.h"
+#include "rsp_turtlebot3_msgs/RandomWalkAction.h"
 #include "rtt/Component.hpp"
 
 RttTurtlebot3::RttTurtlebot3(const std::string& name)
     : RTT::TaskContext(name),
       _move_base_client("move_base", true),
+      _random_walk_client("RandomWalkAction",true),
       _detect_loop(false),
-      _explore(false) {
+      _explore(false),
+      _randomWalk(false){
     // setup operations
     addOperation("GetRobotPose", &RttTurtlebot3::getRobotPoseClbk, this,
                  RTT::OwnThread);
@@ -20,6 +22,10 @@ RttTurtlebot3::RttTurtlebot3(const std::string& name)
     addOperation("LoopDetection", &RttTurtlebot3::detectLoopClbk, this,
                  RTT::OwnThread);
     addOperation("Explore", &RttTurtlebot3::exploreClbk, this, RTT::OwnThread);
+
+    addOperation("RandomWalk", &RttTurtlebot3::randomWalkClbk, this, RTT::OwnThread);
+
+    addOperation("Stop", &RttTurtlebot3::stopClbk, this, RTT::OwnThread);
 
     _move_base_client.waitForServer();
 
@@ -45,6 +51,10 @@ RttTurtlebot3::RttTurtlebot3(const std::string& name)
         _nh.serviceClient<rsp_turtlebot3_msgs::get_frontier_exploration_goal>(
             "get_frontier_exploration_goal");
     _frontier_exlore_client.waitForExistence();
+
+    // random walk client 
+    ROS_INFO("Waiting for action server to start");
+    _random_walk_client.waitForServer();
 
     // setup subscribers
     _scan_sub = _nh.subscribe("scan", 1000, &RttTurtlebot3::scanSubClbk, this);
@@ -95,6 +105,17 @@ void RttTurtlebot3::updateHook() {
             }
         }
     }
+    if (_randomWalk) {
+        float running_time = 5.0;
+        rsp_turtlebot3_msgs::RandomWalkGoal rw_goal;
+        rw_goal.goal_time = running_time;
+        _random_walk_client.sendGoal(rw_goal);
+        ROS_INFO("Waiting for result");
+        bool rw_res = _random_walk_client.waitForResult(ros::Duration(10));
+        if (rw_res){
+            _randomWalk = false;
+        }
+    }
 }
 
 void RttTurtlebot3::stopHook() {}
@@ -114,6 +135,13 @@ void RttTurtlebot3::setRobotPosClbk(
 void RttTurtlebot3::detectLoopClbk() { _detect_loop = true; }
 
 void RttTurtlebot3::exploreClbk() { _explore = true; }
+
+void RttTurtlebot3::randomWalkClbk() { _randomWalk = true; }
+
+void RttTurtlebot3::stopClbk(){ 
+    _randomWalk = false;
+    _explore = false;
+ }
 
 /* #################### subscribers callbacks #################### */
 

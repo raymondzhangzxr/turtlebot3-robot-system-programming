@@ -1,0 +1,12 @@
+# Define the goal: is the exploration finished
+# 1 in progress; 0 finished
+float32 goal_time
+---
+# Define the result
+# A code that specify a success or nature of a failure. 
+# 0 success, 1 failure
+uint8 result_code
+---
+# Define a feedback message
+# Time that the program has been running
+float32 progress

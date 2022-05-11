@@ -3,7 +3,7 @@
 #include <move_base/move_base.h>
 #include <ros/ros.h>
 #include <tf/transform_listener.h>
-
+#include "rsp_turtlebot3_msgs/RandomWalkAction.h"
 #include "nav_msgs/OccupancyGrid.h"
 #include "rsp_turtlebot3_msgs/rsp_turtlebot3_pose.h"
 #include "rtt/TaskContext.hpp"
@@ -29,11 +29,15 @@ class RttTurtlebot3 : public RTT::TaskContext {
     void detectLoopClbk();
     void exploreClbk();
 
+    void randomWalkClbk();
+    void stopClbk();
+
     // Subscriber callbacks
     void scanSubClbk(const sensor_msgs::LaserScanConstPtr& msg);
     void mapSubClbk(const nav_msgs::OccupancyGridConstPtr& msg);
 
    private:
+
     // get robot pose from tf
     rsp_turtlebot3_msgs::rsp_turtlebot3_pose _get_robot_pose(
         ros::Time stamp = ros::Time::now()) const;
@@ -52,6 +56,7 @@ class RttTurtlebot3 : public RTT::TaskContext {
     void _move_base_feedback_clbk(
         const move_base_msgs::MoveBaseFeedbackConstPtr& feedback) const;
 
+
     // move base action client
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>
         _move_base_client;
@@ -63,7 +68,11 @@ class RttTurtlebot3 : public RTT::TaskContext {
     ros::NodeHandle _nh;
 
     // frontier_exploration client
+    // Wavefront 
     ros::ServiceClient _frontier_exlore_client;
+    // randomwalk action clinet
+    actionlib::SimpleActionClient<rsp_turtlebot3_msgs::RandomWalkAction>
+     _random_walk_client;
 
     // loop detection clients
     ros::ServiceClient _add_scan_client;
@@ -77,6 +86,8 @@ class RttTurtlebot3 : public RTT::TaskContext {
 
     bool _detect_loop;
     bool _explore;
+    bool _randomWalk;
+    
     ros::Time _last_goal_start_time;
     sensor_msgs::LaserScan _curr_scan;
     nav_msgs::OccupancyGrid _curr_map;
