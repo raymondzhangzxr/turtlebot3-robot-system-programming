@@ -18,7 +18,7 @@ randomWalk_action::randomWalk_action( ros::NodeHandle& nh):
 
 void randomWalk_action::executeCB(const rsp_turtlebot3_msgs::RandomWalkGoalConstPtr &goal){
     // Now the executeCB function referenced in the constructor is created. The callback function is passed a pointer to the goal message. Note: This is a boost shared pointer, given by appending "ConstPtr" to the end of the goal message type.
-   std::cout <<"RandomWalk is working"<< std::endl;
+   std::cout <<"RandomWalk is not working"<< std::endl;
    ros::Time _CB_start_time = ros::Time::now();
    rsp_turtlebot3_msgs::RandomWalkFeedback randomWalk_feedback;
    pathPlanning pathPlanning;

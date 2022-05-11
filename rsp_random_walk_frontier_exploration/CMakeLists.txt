@@ -171,6 +171,8 @@ target_link_libraries(randomWalk
 target_link_libraries(rsp_random_walk_frontier_exploration_node
   ${catkin_LIBRARIES}
   randomWalk
+  pathPlanning
+  collision
 )
 
 #############

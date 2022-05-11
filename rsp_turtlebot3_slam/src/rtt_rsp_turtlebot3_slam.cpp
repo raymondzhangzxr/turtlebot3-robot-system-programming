@@ -112,6 +112,7 @@ void RttTurtlebot3::updateHook() {
         _random_walk_client.sendGoal(rw_goal);
         ROS_INFO("Waiting for result");
         bool rw_res = _random_walk_client.waitForResult(ros::Duration(10));
+        std::cout<<rw_res<<std::endl;
         if (rw_res){
             _randomWalk = false;
         }
