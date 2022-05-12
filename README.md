@@ -1,7 +1,6 @@
 # Turtlebot3 frontier exploration and loop detection
-<h3 align="center">EN.530.707 Robot System Programming class project. </h3>
-<h4 align="center">Xiaorui Zhang (xzhan227)
-, Xucheng Ma (xma42)</h4>
+<h3 align="center">EN.530.707 Robot System Programming class project</h3>
+<h4 align="center">Xiaorui Zhang (xzhan227); Xucheng Ma (xma42)</h4>
 <h4 align="center">Johns Hopkins Robotics</h4>
 
 ## Table of contents
