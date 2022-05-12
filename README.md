@@ -9,8 +9,10 @@
 - [Deliverable checklist](#deliverable-checklist)
 - [Getting started](#getting-started)
 - [What's included](#whats-included)
+- [Demo videos](#demo-videos)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgments)
+
 
 ## Description
 
@@ -154,8 +156,10 @@ The main package for gazebo simulation, rtt deployer, and turtlebot3 demo.
 
 ## Demo Videos
 * Video 1:
-  
+https://drive.google.com/file/d/1357kR66ey3R1z6fbebZTqeJKhuZ3ZSxf/view?usp=sharing
 * Video 2:
+https://drive.google.com/file/d/1Wsf-ze6sHjchfZNfuJ4QruEkLyDgjb6h/view?usp=sharing
+
 
 ## Acknowledgments
 
