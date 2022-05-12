@@ -15,7 +15,7 @@
 
 ## Description
 
-This project implements two frontier exploration methods (Wavefront and Random walk) with loop detection on the Turtlebot3 platform. We focused on integrating SLAM algorithms and ROS by applying in-class learned knowledge and skills. We did both Gazebo simulation and real-world robot experiments in this project.
+This project implements two frontier exploration methods (Wavefront and Random walk) with loop detection on the Turtlebot3 platform.  Exploration and loop detection can be controlled in real time through Orocos Real-Time Toolkit (RTT). We focused on integrating SLAM algorithms and ROS by applying in-class learned knowledge and skills. Both Gazebo simulation and real-world robot experiments were performed in this project.
 
 ## Deliverable checklist
 - [x] **Minimum Deliverbles**
