@@ -3,6 +3,7 @@
 <h4 align="center">Xiaorui Zhang (xzhan227)
 , Xucheng Ma (xma42)</h4>
 <h4 align="center">Johns Hopkins Robotics</h4>
+
 ## Table of contents
 - [Description](#description)
 - [Deliverable checklist](#deliverable-checklist)
