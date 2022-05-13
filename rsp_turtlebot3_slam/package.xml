@@ -58,8 +58,9 @@
   <build_depend>rtt_sensor_msgs</build_depend>
   <build_depend>rtt_std_msgs</build_depend>
   <build_depend>rsp_turtlebot3_msgs</build_depend>
+  <build_depend>rtt_rsp_turtlebot3_msgs</build_depend>
   <build_depend>actionlib</build_depend>
-  <build_depend>actionlib_msgs</build_depend>
+  
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rtt_geometry_msgs</build_export_depend>
   <build_export_depend>rtt_nav_msgs</build_export_depend>
@@ -69,6 +70,8 @@
   <build_export_depend>rtt_sensor_msgs</build_export_depend>
   <build_export_depend>rtt_std_msgs</build_export_depend>
   <build_export_depend>rsp_turtlebot3_msgs</build_export_depend>
+  <build_export_depend>rtt_rsp_turtlebot3_msgs</build_export_depend>
+
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rtt_geometry_msgs</exec_depend>
   <exec_depend>rtt_nav_msgs</exec_depend>
@@ -78,14 +81,15 @@
   <exec_depend>rtt_sensor_msgs</exec_depend>
   <exec_depend>rtt_std_msgs</exec_depend>
   <exec_depend>rsp_turtlebot3_msgs</exec_depend>
+  <exec_depend>rtt_rsp_turtlebot3_msgs</exec_depend>
   <exec_depend>turtlebot3_gazebo</exec_depend>
   <exec_depend>turtlebot3_slam</exec_depend>
   <exec_depend>turtlebot3_navigation</exec_depend>
-  <exec_depend>rsp_loop_detection</exec_depend>
   <exec_depend>actionlib</exec_depend>
-  <exec_depend>actionlib_msgs</exec_depend>
-  <exec_depend>dwa_loacl_planner</exec_depend>
+  <exec_depend>dwa_local_planner</exec_depend>
+  <exec_depend>rsp_loop_detection</exec_depend>
   <exec_depend>rsp_random_walk_exploration</exec_depend>
+  <exec_depend>rsp_wf_frontier_exploration</exec_depend>
   
 
   <!-- The export tag contains other, unspecified, tags -->

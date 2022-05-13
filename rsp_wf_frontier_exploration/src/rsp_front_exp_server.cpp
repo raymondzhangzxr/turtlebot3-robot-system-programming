@@ -1,9 +1,9 @@
-#include "rsp_wf_frontier_exploration/front_exp_server.hpp"
+#include "rsp_wf_frontier_exploration/rsp_front_exp_server.hpp"
 
 #include "rsp_wf_frontier_exploration/wavefront_frontier_detection.hpp"
 
-FrontierExplorer::FrontierExplorer(ros::NodeHandle& nh) : _nh(nh) {
-    _server = nh.advertiseService("get_frontier_exploration_goal",
+FrontierExplorer::FrontierExplorer(ros::NodeHandle& nh) : nh_(nh) {
+    server_ = nh.advertiseService("get_frontier_exploration_goal",
                                   &FrontierExplorer::getGoal, this);
 }
 

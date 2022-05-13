@@ -8,12 +8,14 @@ project(rsp_random_walk_exploration)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rsp_turtlebot3_msgs
   geometry_msgs
-  roscpp
-  rospy
   sensor_msgs
   std_msgs
+  rsp_turtlebot3_msgs
+  actionlib_msgs
+  roscpp
+  rospy
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -137,7 +139,7 @@ add_library(rsp_random_walk_exploration
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(rsp_random_walk_exploration_node 
-src/rsp_random_walk_exploration_node.cpp
+ src/rsp_random_walk_exploration_node.cpp
 )
 
 ## Rename C++ executable without prefix
@@ -156,7 +158,7 @@ target_link_libraries(rsp_random_walk_exploration
 )
 
 target_link_libraries(rsp_random_walk_exploration_node
-rsp_random_walk_exploration
+ rsp_random_walk_exploration
 )
 
 #############

@@ -126,7 +126,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(rsp_wf_frontier_exploration
-  src/front_exp_server.cpp
+  src/rsp_front_exp_server.cpp
   src/wavefront_frontier_detection.cpp
 )
 
@@ -139,7 +139,7 @@ add_library(rsp_wf_frontier_exploration
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(rsp_wf_frontier_exploration_node 
-  src/front_exp_server_node.cpp
+  src/rsp_front_exp_server_node.cpp
 )
 
 ## Rename C++ executable without prefix

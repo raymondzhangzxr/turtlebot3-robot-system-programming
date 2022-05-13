@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   rsp_turtlebot3_msgs
   actionlib
-  actionlib_msgs
+  rtt_rsp_turtlebot3_msgs
 )
 
 ## System dependencies are found with CMake's conventions

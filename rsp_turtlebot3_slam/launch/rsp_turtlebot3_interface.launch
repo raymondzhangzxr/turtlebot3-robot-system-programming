@@ -1,20 +1,7 @@
 <launch>
     <include file="$(find rsp_loop_detection)/launch/rsp_loop_detection.launch" />
-
-    <node
-        name="rsp_frontier_explorer_service"
-        pkg="rsp_wf_frontier_exploration"
-        type="rsp_wf_frontier_exploration_node"
-        output="screen"></node>
-
-    <!-- robot action node -->
-    <node 
-        name="rsp_random_walk_exploration_node"
-        pkg="rsp_random_walk_exploration" 
-        type="randomWalk_node"  
-        output="screen"></node>
-        <rosparam file="$(find rsp_random_walk_exploration)/param/random_walk_params.yaml" command="load" />
-
+    <include file="$(find rsp_wf_frontier_exploration)/launch/rsp_wf_frontier_exploration.launch" />
+    <include file="$(find rsp_random_walk_exploration)/launch/rsp_random_walk_exploration.launch" />
     <node
         name="deployer"
         pkg="rtt_ros"

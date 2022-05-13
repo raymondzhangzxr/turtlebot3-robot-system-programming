@@ -19,17 +19,17 @@ class LoopDetector {
                      rsp_turtlebot3_msgs::detect_loopResponse& res);
 
    private:
-    ros::NodeHandle _nh;
-    ros::ServiceServer _add_scan_server;
-    ros::ServiceServer _loop_detection_server;
+    ros::NodeHandle nh_;
+    ros::ServiceServer add_scan_server_;
+    ros::ServiceServer loop_detection_server_;
 
-    double _scan_distance;
-    double _similarity_threshold;
-    int _yaw_search_window;
-    int _ignore_recent_scan;
-    int _num_ranges;
-    int _min_num_valid_ranges;
-    double _max_range;
+    double scan_distance_;
+    double similarity_threshold_;
+    int yaw_search_window_;
+    int ignore_recent_scan_;
+    int num_ranges_;
+    int min_num_valid_ranges_;
+    double max_range_;
 
-    std::vector<add_scan_req> _scans;
+    std::vector<add_scan_req> scans_;
 };

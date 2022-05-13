@@ -1,0 +1,7 @@
+<launch>
+    <node
+        name="rsp_wf_frontier_explorer"
+        pkg="rsp_wf_frontier_exploration"
+        type="rsp_wf_frontier_exploration_node"
+        output="screen"></node>
+</launch>

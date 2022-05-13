@@ -8,7 +8,22 @@ import("rsp_turtlebot3_slam")
 loadComponent("rtt_rsp_turtlebot3_slam", "RttTurtlebot3")
 setActivity("rtt_rsp_turtlebot3_slam", 1, 0, ORO_SCHED_OTHER)
 
+rtt_rsp_turtlebot3_slam.scan_topic = "scan"
+rtt_rsp_turtlebot3_slam.map_topic = "map"
+
+rtt_rsp_turtlebot3_slam.add_scan_service_name = "/rsp_loop_detection/add_scan"
+rtt_rsp_turtlebot3_slam.detect_loop_service_name = "/rsp_loop_detection/detect_loop"
+
+rtt_rsp_turtlebot3_slam.get_exp_goal_service_name = "/rsp_wf_frontier_explorer/get_frontier_exploration_goal"
+
+rtt_rsp_turtlebot3_slam.random_walk_action_name = "/rsp_random_walk_exploration/random_walk"
+
+rtt_rsp_turtlebot3_slam.move_base_action_name = "move_base"
+rtt_rsp_turtlebot3_slam.move_base_goal_wait_time = 5.0
+rtt_rsp_turtlebot3_slam.random_walk_time_when_stuck = 3.0
+
+rtt_rsp_turtlebot3_slam.world_frame = "map"
+rtt_rsp_turtlebot3_slam.robot_frame = "base_footprint"
+
 rtt_rsp_turtlebot3_slam.configure()
 rtt_rsp_turtlebot3_slam.start()
-
-var rsp_turtlebot3_msgs.rsp_turtlebot3_pose p = rtt_rsp_turtlebot3_slam.GetRobotPose()

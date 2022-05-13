@@ -1,0 +1,13 @@
+<launch>
+    <arg name="scan_topic" default="scan" />
+    <arg name="cmd_vel_topic" default="cmd_vel" />
+    <node
+        name="rsp_random_walk_exploration"
+        pkg="rsp_random_walk_exploration"
+        type="rsp_random_walk_exploration_node"
+        output="screen">
+        <rosparam file="$(find rsp_random_walk_exploration)/param/random_walk_params.yaml" command="load" />
+        <remap from="scan" to="$(arg scan_topic)" />
+        <remap from="cmd_vel" to="$(arg cmd_vel_topic)" />
+    </node>
+</launch>

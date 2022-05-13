@@ -1,5 +1,6 @@
+random_walk_action: random_walk
 # random walk linear speed:
-linear_speed: 0.2
+linear_speed: 0.12
 # random walk angular speed:
 angular_speed: 1
 # scan threshold: convert inf to threshold 

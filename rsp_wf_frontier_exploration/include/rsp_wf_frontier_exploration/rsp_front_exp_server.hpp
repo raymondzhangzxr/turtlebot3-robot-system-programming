@@ -11,6 +11,6 @@ class FrontierExplorer {
         rsp_turtlebot3_msgs::get_frontier_exploration_goal::Response& res);
 
    private:
-    ros::NodeHandle _nh;
-    ros::ServiceServer _server;
+    ros::NodeHandle nh_;
+    ros::ServiceServer server_;
 };
