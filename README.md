@@ -5,6 +5,7 @@
 <p align="center">
   <img src="teaser.gif" alt="gif" width="700" />
 </p>
+
 ## Table of contents
 - [Description](#description)
 - [Deliverable checklist](#deliverable-checklist)
